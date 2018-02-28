@@ -7,8 +7,10 @@ class Store extends EventEmitter {
         const storage = 'localStorage' in window ? localStorage.getItem('data') : null;
         if (!storage) {
             this._data = [];
+            this._maxId = 0;
         } else {
             this._data = JSON.parse(storage);
+            this._maxId = this._getMaxId();
         }
 
         this._sortByField = 'title';
@@ -26,6 +28,10 @@ class Store extends EventEmitter {
         }
     }
 
+    _getMaxId() {
+        return this._getData().reduce((mem, item) => Math.max(mem, item.id), 0);
+    }
+
     _sortCallback(a, b, descending) {
         const res = a.localeCompare(b);
         return descending ? -1 * res : res;
@@ -37,10 +43,13 @@ class Store extends EventEmitter {
 
     clear() {
         this._setData([]);
+        this._maxId = 0;
     }
 
     addTask(taskTitle) {
+        ++this._maxId;
         const task = {
+            id: this._maxId,
             title: taskTitle,
             isDone: false
         };
@@ -48,48 +57,41 @@ class Store extends EventEmitter {
         newData.push(task);
         this._sort(newData, this._sortByField, this._sortDescending);
         this._setData(newData);
-
-        const index = newData.findIndex(item => item === task);
-        this.emit('add', task, index);
+        this.emit('add', task);
     }
 
-    changeTask(oldTitle, newTitle) {
+    changeTask(id, newTitle) {
         const newData = this._getData();
-        const task = newData.find(item => item.title === oldTitle);
+        const task = newData.find(item => item.id === id);
         if (!task) {
             return;
         }
-        const oldIndex = newData.findIndex(item => item === task);
         task.title = newTitle;
         this._sort(newData, this._sortByField, this._sortDescending);
         this._setData(newData);
-
-        const newIndex = newData.findIndex(item => item === task);
-        this.emit('change', task, oldIndex, newIndex);
+        this.emit('change', task);
     }
 
-    removeTask(taskTitle) {
+    removeTask(id) {
         const newData = this._getData();
-        const index = newData.findIndex(item => item.title === taskTitle);
+        const index = newData.findIndex(item => item.id === id);
         if (index === -1) {
             return;
         }
         const task = newData[index];
         this._setData(newData.filter(item => item !== task));
-
-        this.emit('remove', task, index);
+        this.emit('remove', task);
     }
 
-    changeStateTask(taskTitle, isDone) {
+    changeStateTask(id, isDone) {
         const newData = this._getData();
-        const index = newData.findIndex(item => item.title === taskTitle);
+        const index = newData.findIndex(item => item.id === id);
         if (index === -1) {
             return;
         }
         const task = newData[index];
         task.isDone = isDone;
         this._setData(newData);
-
-        this.emit('changeState', task, index);
+        this.emit('changeState', task);
     }
 }
