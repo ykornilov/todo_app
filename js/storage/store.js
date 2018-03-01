@@ -14,7 +14,7 @@ class Store extends EventEmitter {
         }
 
         this._sortByField = 'title';
-        this._sortDescending = false;
+        this._sortDescending = true;
     }
 
     _getData() {
