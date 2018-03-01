@@ -28,11 +28,15 @@ class Task {
                     { 'type': 'checkbox', 'class': 'task__state', 'checked': data.isDone },
                     null
                 ),
-                data.title
+                e(
+                    'span',
+                    { 'class': 'task__title' },
+                    data.title
+                )
             ),
             e(
                 'input',
-                { 'type': 'text', 'class': 'task__title', 'value': data.title },
+                { 'type': 'text', 'class': 'task__newtitle', 'value': data.title },
                 null
             ),
             e(

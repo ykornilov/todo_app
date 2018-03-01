@@ -1,7 +1,6 @@
 'use strict';
 
 const store = new Store();
-store.clear();
 
 document.addEventListener('DOMContentLoaded', main);
 
@@ -20,12 +19,12 @@ function changeStateEventHandler(evt) {
             store.removeTask(taskId);
             break;
         case 'task__edit':
-            task.classList.toggle('.task-editing');
-            if (!task.classList.contains('.task-editing')) {
-                store.changeTask(taskId, task.querySelector('.task__title').value);
+            task.classList.toggle('task-editing');
+            if (!task.classList.contains('task-editing')) {
+                store.changeTask(taskId, task.querySelector('.task__newtitle').value);
             }
             break;
-        case 'task__title':
+        case 'task__newtitle':
             break;
         default:
             store.changeStateTask(taskId);

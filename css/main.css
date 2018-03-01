@@ -1,6 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:500,700);
 
 *, *::before, *::after {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
     color: #435757;
@@ -15,3 +17,190 @@ body {
     background: linear-gradient(-20deg, #d0b782 20%, #a0cecf 80%);
     font: 500 1.2em/1.2 'Roboto', sans-serif;
 }
+
+.todos {
+    max-width: 450px;
+    margin: 0 auto;
+    border-top: 5px solid #435757;
+    background-color: rgba(255, 255, 255, .2);
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    user-select: none;
+    counter-reset: done-items undone-items;
+}
+
+.todos__header{
+    margin: 0;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, .4);
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.todos__items {
+    list-style-type: none;
+}
+
+.todos__done,
+.todos__undone{
+    padding: 20px;
+}
+
+.todos__title {
+    position: relative;
+    margin: 0;
+    padding: 10px 0;
+    font-size: 1.2em;
+}
+
+.todos__title::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: -20px;
+    width: 5px;
+    background-color: #435757;
+}
+
+.todos__title::after {
+    display: block;
+    float: right;
+    font-weight: normal;
+}
+
+/* hide inputs offscreen, but at the same vertical positions as the correpsonding labels, so that tabbing scrolls the viewport as expected */
+.task__state {
+    display: block;
+    height: 53px;
+    margin: 0 0 -53px -9999px;
+    order: 4;
+    outline: none;
+}
+
+.todos__done .task__label {
+    counter-increment: done-items;
+}
+
+.todos__undone .task__label {
+    counter-increment: undone-items;
+}
+
+.task {
+    display: block;
+    position: relative;
+    padding: 15px 80px 15px 45px;
+    border-top: 1px dashed #fff;
+    cursor: pointer;
+}
+
+.task:hover {
+    background-color: rgba(255, 255, 255, .2);
+}
+
+.task__newtitle {
+    display: none;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0 10px;
+    font-size: 1em;
+    border: 1px solid white;
+    background-color: transparent;
+}
+
+.task__edit,
+.task__delete {
+    margin: 0 0 -53px -9999px;
+    font-size: 1em;
+}
+
+.task__label::before,
+.task__edit::before,
+.task__delete::before {
+    display: block;
+    position: absolute;
+    font: 1.5em 'FontAwesome';
+    cursor: pointer;
+}
+
+.task__label::before {
+    content: '\f10c'; /* circle outline */
+    top: 11px;
+    left: 10px;
+}
+
+.todos__done .task__label::before {
+    content: '\f058'; /* circle checkmark */
+}
+
+.task__edit::before {
+    content: '\f044'; /* circle outline */
+    top: 13px;
+    right: 40px;
+}
+
+.task__delete::before {
+    content: '\f1f8'; /* circle outline */
+    top: 11px;
+    right: 10px;
+}
+
+
+.task-editing .task__title {
+    display: none;
+}
+
+.task-editing .task__newtitle {
+    display: inline;
+}
+
+.todos__undone .task {
+    animation: undone .5s;
+}
+
+.todos__done .task {
+    animation: done .5s;
+}
+
+@keyframes done {
+    0% {
+        opacity: 0;
+        background-color: rgba(255, 255, 255, .4);
+        transform: translateY(20px);
+    }
+    50% {
+        opacity: 1;
+        background-color: rgba(255, 255, 255, .4);
+    }
+}
+
+@keyframes undone {
+    0% {
+        opacity: 0;
+        background-color: rgba(255, 255, 255, .4);
+        transform: translateY(-20px);
+    }
+    50% {
+        opacity: 1;
+        background-color: rgba(255, 255, 255, .4);
+    }
+}
+
+.addform {
+    margin: 0;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, .4);
+    font-size: 1em;
+    text-align: center;
+}
+
+.addform__task {
+    width: 100%;
+    margin: 0;
+    padding: 0 10px;
+    font-size: 1em;
+    border: 1px solid white;
+    background-color: transparent;
+}
+
