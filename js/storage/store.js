@@ -46,6 +46,10 @@ class Store extends EventEmitter {
         this._maxId = 0;
     }
 
+    getTasks(isDone) {
+        return this._getData().filter(item => item.isDone === isDone);
+    }
+
     addTask(taskTitle) {
         ++this._maxId;
         const task = {
