@@ -29,6 +29,21 @@ class Task {
                     null
                 ),
                 data.title
+            ),
+            e(
+                'input',
+                { 'type': 'text', 'class': 'task__title', 'value': data.title },
+                null
+            ),
+            e(
+                'button',
+                { 'class': 'task__edit' },
+                'Изменить'
+            ),
+            e(
+                'button',
+                { 'class': 'task__delete' },
+                'Удалить'
             )
         );
         this._element = createElement(content);

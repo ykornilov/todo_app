@@ -79,8 +79,8 @@ class TasksList {
                 this._node.appendChild(task.element);
                 this._tasks.push(task);
             } else {
-                this._node.insertBefore(task.element, this._tasks[newIndex].element);
-                this._tasks.splice(newIndex, 0, task);
+                this._node.insertBefore(task.element, this._tasks[index].element);
+                this._tasks.splice(index, 0, task);
             }
         }
     }

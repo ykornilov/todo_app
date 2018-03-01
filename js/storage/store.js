@@ -66,7 +66,7 @@ class Store extends EventEmitter {
 
     changeTask(id, newTitle) {
         const newData = this._getData();
-        const task = newData.find(item => item.id === id);
+        const task = newData.find(item => item.id === parseInt(id));
         if (!task) {
             return;
         }
@@ -78,7 +78,7 @@ class Store extends EventEmitter {
 
     removeTask(id) {
         const newData = this._getData();
-        const index = newData.findIndex(item => item.id === id);
+        const index = newData.findIndex(item => item.id === parseInt(id));
         if (index === -1) {
             return;
         }
@@ -87,14 +87,14 @@ class Store extends EventEmitter {
         this.emit('remove', task);
     }
 
-    changeStateTask(id, isDone) {
+    changeStateTask(id) {
         const newData = this._getData();
-        const index = newData.findIndex(item => item.id === id);
+        const index = newData.findIndex(item => item.id === parseInt(id));
         if (index === -1) {
             return;
         }
         const task = newData[index];
-        task.isDone = isDone;
+        task.isDone = !task.isDone;
         this._setData(newData);
         this.emit('changeState', task);
     }
