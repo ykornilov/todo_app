@@ -1,6 +1,7 @@
 'use strict';
 
 const store = new Store();
+//store.clear();
 
 document.addEventListener('DOMContentLoaded', main);
 
@@ -32,7 +33,7 @@ function changeStateEventHandler(evt) {
 }
 
 function addTaskEventHandler(evt) {
-    event.preventDefault();
+    evt.preventDefault();
     const task = document.querySelector('.addform__task').value.trim();
     if (!task) {
         return;
