@@ -31,6 +31,40 @@ class TasksList {
     _addTaskHandler(taskObj) {
         const index = this._getTasks().findIndex(item => item === taskObj);
         const task = new Task(taskObj);
+        this._addTask(task, index);
+    }
+
+    _removeTaskHandler(taskObj) {
+        if (taskObj.isDone !== this._isDone) {
+            return;
+        }
+        const index = this._tasks.findIndex(item => item.id === taskObj.id);
+        this._removeTask(index);
+    }
+
+    _changeTaskHandler(taskObj) {
+        if (taskObj.isDone !== this._isDone) {
+            return;
+        }
+        const oldIndex = this._tasks.findIndex(item => item.id === taskObj.id);
+        const newIndex = this._getTasks().findIndex(item => item.id === taskObj.id);
+        this._removeTask(oldIndex);
+        const task = new Task(taskObj);
+        this._addTask(task, newIndex);
+    }
+
+    _changeStateTaskHandler(taskObj) {
+        if (taskObj.isDone !== this._isDone) {
+            const index = this._tasks.findIndex(item => item.id === taskObj.id);
+            this._removeTask(index);
+        } else {
+            const task = new Task(taskObj);
+            const index = this._getTasks().findIndex(item => item.id === taskObj.id);
+            this._addTask(task, index);
+        }
+    }
+
+    _addTask(task, index) {
         if (index === this._tasks.length) {
             this._node.appendChild(task.element);
             this._tasks.push(task);
@@ -40,49 +74,9 @@ class TasksList {
         }
     }
 
-    _removeTaskHandler(taskObj) {
-        if (taskObj.isDone !== this._isDone) {
-            return;
-        }
-        const index = this._tasks.findIndex(item => item.id === taskObj.id);
+    _removeTask(index) {
         this._node.removeChild(this._tasks[index].element);
         this._tasks.splice(index, 1);
-    }
-
-    _changeTaskHandler(taskObj) {
-        if (taskObj.isDone !== this._isDone) {
-            return;
-        }
-        const oldIndex = this._tasks.findIndex(item => item.id === taskObj.id);
-        const newIndex = this._getTasks().findIndex(item => item.id === taskObj.id);
-        this._node.removeChild(this._tasks[oldIndex].element);
-        this._tasks.splice(oldIndex, 1);
-        const task = new Task(taskObj);
-        if (newIndex === this._tasks.length) {
-            this._node.appendChild(task.element);
-            this._tasks.push(task);
-        } else {
-            this._node.insertBefore(task.element, this._tasks[newIndex].element);
-            this._tasks.splice(newIndex, 0, task);
-        }
-    }
-
-    _changeStateTaskHandler(taskObj) {
-        if (taskObj.isDone !== this._isDone) {
-            const index = this._tasks.findIndex(item => item.id === taskObj.id);
-            this._node.removeChild(this._tasks[index].element);
-            this._tasks.splice(index, 1);
-        } else {
-            const task = new Task(taskObj);
-            const index = this._getTasks().findIndex(item => item.id === taskObj.id);
-            if (index === this._tasks.length) {
-                this._node.appendChild(task.element);
-                this._tasks.push(task);
-            } else {
-                this._node.insertBefore(task.element, this._tasks[index].element);
-                this._tasks.splice(index, 0, task);
-            }
-        }
     }
 
 }
